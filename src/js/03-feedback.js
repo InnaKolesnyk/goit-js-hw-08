@@ -8,25 +8,16 @@ input.addEventListener('input', throttle(onInputMessage, 500));
 textarea.addEventListener('input', throttle(onInputMessage, 500));
 form.addEventListener('submit', onSubmit);
 
-function startFile() {
-  const saveData = JSON.parse(localStorage.getItem('feedback-form-state'));
+startFile();
 
-  if (saveData) {
-    console.log(saveData);
-    input.value = saveData.email;
-    textarea.value = saveData.message;
-  }
-}
-
-function onInputMessage(event) {
-  const {
-    elements: { email, message },
-  } = event.currentTarget.form;
-  const data = {
-    email: email.value,
-    message: message.value,
-  };
-  localStorage.setItem('feedback-form-state', JSON.stringify(data));
+function onInputMessage() {
+    const {
+        elements: { email, message }, } = form;
+    const data = {
+        email: email.value,
+        message: message.value,
+    };
+    localStorage.setItem('feedback-form-state', JSON.stringify(data));
 }
 
 function onSubmit(event) {
@@ -34,6 +25,19 @@ function onSubmit(event) {
   event.currentTarget.reset();
   localStorage.removeItem('feedback-form-state');
 }
+
+function startFile() {
+  const saveData = JSON.parse(localStorage.getItem('feedback-form-state'));
+
+  if (localStorage.getItem('feedback-form-state')) {
+    console.log(saveData);
+    input.value = saveData.email || '';
+    textarea.value = saveData.message;
+  }
+}
+
+
+
 
 
 
